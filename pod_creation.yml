@@ -1,0 +1,41 @@
+---
+- name: Name
+  hosts: all
+  vars_prompt:
+   - name: ns
+     prompt: "Enter the name space"
+     private: no
+   - name: pod_name
+     prompt: "Enter the Pod Name"
+     private: no
+  tasks:   
+   - name: Check the NameSpace
+     command: kubectl get ns "{{ ns }}"
+     register: names
+     when: ansible_hostname == "k8master"
+   - name: print the output
+     debug: var=names
+     ignore_errors: true
+   - name: Creating Name Space
+     community.kubernetes.k8s:
+      name: "{{ ns }}"
+      api_version: v1
+      kind: Namespace
+      state: present
+     ignore_errors: true
+     when: names.stdout == ""
+   - name: Creating a POD using Ansible
+     community.kubernetes.k8s:
+      api_version: v1
+      definition:
+       kind: Pod
+       metadata:
+        name: "{{ pod_name }}"
+        namespace: "{{ ns }}"
+       spec:
+        containers:
+         - name: "{{ pod_name }}"
+           image: nginx
+     when: ansible_hostname == "k8master"
+  environment:
+   KUBECONFIG: /home/ansible/.kube/config
