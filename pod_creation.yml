@@ -1,6 +1,7 @@
 ---
 - name: Name
   hosts: all
+  plugin: kubernetes.core.k8s
   vars_prompt:
    - name: ns
      prompt: "Enter the name space"
