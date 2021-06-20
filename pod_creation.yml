@@ -34,4 +34,4 @@
            image: nginx
      when: ansible_hostname == "k8master"
   environment:
-   KUBECONFIG: /home/ansible/.kube/config
+   K8S_AUTH_KUBECONFIG: /home/ansible/.kube/config
