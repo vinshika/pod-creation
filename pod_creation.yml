@@ -19,7 +19,7 @@
      debug: var=names
      ignore_errors: true
    - name: Creating Name Space
-     community.kubernetes.k8s:
+     community.kubernetes.k8s_info:
       name: "{{ ns }}"
       api_version: v1
       kind: Namespace
@@ -27,7 +27,7 @@
      ignore_errors: true
      when: names.stdout == ""
    - name: Creating a POD using Ansible
-     community.kubernetes.k8s:
+     community.kubernetes.k8s_info:
       plugin: kubernetes.core.k8s
       api_version: v1
       definition:
