@@ -1,7 +1,6 @@
 ---
 - name: Name
   hosts: all
-  plugin: kubernetes.core.k8s
   vars_prompt:
    - name: ns
      prompt: "Enter the name space"
@@ -27,6 +26,7 @@
      when: names.stdout == ""
    - name: Creating a POD using Ansible
      community.kubernetes.k8s:
+      plugin: kubernetes.core.k8s
       api_version: v1
       definition:
        kind: Pod
