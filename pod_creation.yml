@@ -3,22 +3,14 @@
   hosts: all
   collections:
    - community.kubernetes.k8s
-  tasks:   
-   - name: Check the NameSpace
-     command: kubectl get ns "{{ ns }}"
-     register: names
-     when: ansible_hostname == "k8master"
-   - name: print the output
-     debug: var=names
-     ignore_errors: true
+  tasks:
    - name: Creating Name Space
      k8s:
       name: "{{ ns }}"
       api_version: v1
       kind: Namespace
       state: present
-     ignore_errors: true
-     when: names.stdout == ""
+     when: ansible_hostname == "k8master"
    - name: Creating a POD using Ansible
      k8s:
       api_version: v1
