@@ -10,7 +10,7 @@
       api_version: v1
       kind: Namespace
       state: present
-     when: ansible_hostname == "k8master"
+     when: ansible_hostname == "vmaster"
    - name: Creating a POD using Ansible
      k8s:
       api_version: v1
@@ -23,6 +23,6 @@
         containers:
          - name: "{{ pod_name }}"
            image: nginx
-     when: ansible_hostname == "k8master"
+     when: ansible_hostname == "vmaster"
   environment:
    K8S_AUTH_KUBECONFIG: /home/ansible/.kube/config
